@@ -22,6 +22,8 @@ public class UIControl : MonoBehaviour
     public Sprite vibrateOpen;
     public Sprite vibrateClosed;
 
+    private bool PauseGame = false;
+
 
     public static AudioClip bubble, down, gem;
     static AudioSource audioSrc;
@@ -54,6 +56,18 @@ public class UIControl : MonoBehaviour
 
         music = GameObject.FindObjectOfType<Music>();
          UpdateIcon();
+    }
+
+    private void Update()
+    {
+        if(PauseGame == true)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
 
@@ -204,6 +218,25 @@ public class UIControl : MonoBehaviour
     public void GameOverPanel()
     {
         gameOverPanel.gameObject.SetActive(true);
+    }
+    
+
+    public void pauseGame()
+	{
+        StartCoroutine(settingsPanelTimer());
+
+    }
+    public void continueGame()
+    {
+        PauseGame = false;
+
+    }
+
+
+    public IEnumerator settingsPanelTimer()
+    {
+        yield return new WaitForSeconds(.5f);
+        PauseGame = true;
     }
 
 
